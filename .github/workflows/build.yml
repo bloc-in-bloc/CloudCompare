@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scalar_double: [ "OFF", "ON" ]
+        scalar_double: [ "ON" ]
         config:
           - {
             name: "Windows MSVC",
@@ -20,7 +20,7 @@ jobs:
             conda_library_dir: "Library",
             compile_qanimation_with_ffmpeg: "OFF",
             compile_qpcl: "OFF",
-            compile_qransac: "ON",
+            compile_qransac: "OFF",
           }
           - {
             name: "macOS Clang",
@@ -29,7 +29,7 @@ jobs:
             conda_library_dir: ".",
             compile_qanimation_with_ffmpeg: "OFF",
             compile_qpcl: "OFF",
-            compile_qransac: "ON",
+            compile_qransac: "OFF",
           }
 
     steps:
@@ -143,6 +143,20 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         run: cmake --install build
 
+      - name: Archive (Windows)
+        if: matrix.config.os == 'windows-latest'
+        uses: actions/upload-artifact@v3
+        with:
+            name: ${{ matrix.config.os }}
+            path: "C:/Program Files (x86)/CloudCompareProjects/CloudCompare/"
+
+      - name: Archive (macOS)
+        if: matrix.config.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+            name: ${{ matrix.config.os }}
+            path: "/usr/local/CloudCompare/CloudCompare.app"
+
   ubuntu-build:
     name: Ubuntu ${{ matrix.compiler }} SCALAR_DOUBLE=${{ matrix.scalar_double }}
     runs-on: ubuntu-20.04
@@ -151,7 +165,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scalar_double: [ "OFF", "ON" ]
+        scalar_double: [ "ON" ]
         compiler: ["GCC", "Clang"]
 
     steps:
