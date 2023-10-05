@@ -148,14 +148,14 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
             name: ${{ matrix.config.os }}
-            path: "C:/Program Files (x86)/CloudCompareProjects/CloudCompare/"
+            path: "C:/Program Files (x86)/CloudCompareProjects/"
 
       - name: Archive (macOS)
         if: matrix.config.os == 'macos-latest'
         uses: actions/upload-artifact@v3
         with:
             name: ${{ matrix.config.os }}
-            path: "/usr/local/CloudCompare/CloudCompare.app"
+            path: "/usr/local/CloudCompare/"
 
   ubuntu-build:
     name: Ubuntu ${{ matrix.compiler }} SCALAR_DOUBLE=${{ matrix.scalar_double }}
